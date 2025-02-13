@@ -5,11 +5,8 @@ import clone.logica_installador.ApkInstallerThread;
 import clone.logica_installador.ApkManager;
 import static clone.logica_installador.BatchFileCreator.checkAndCreateCommandFile;
 import clone.logica_installador.CardReaderInstaller;
-import java.awt.TextArea;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JProgressBar;
@@ -23,11 +20,14 @@ public final class LogicaDriversInterfaz implements LogicaDrivers {
     private final Funciones_windows helper ;
     private InfoEntity thisPC;
     private final JTextArea console;
-    
-    public LogicaDriversInterfaz(JTextArea console){
+    private final JProgressBar progress;
+    public LogicaDriversInterfaz(JProgressBar progress, JTextArea console){
        
         this.console = console;
         helper = new Funciones_windows(progress,console);
+        this.progress = progress;
+        
+       
     }
 
     @Override
@@ -109,8 +109,8 @@ public final class LogicaDriversInterfaz implements LogicaDrivers {
     }
 
     private  String getOutput(String command) {
-       ApkManager algo = new ApkManager("", console);
-       ApkInstallerThread leer = new ApkInstallerThread(algo, "");
+       ApkManager algo = new ApkManager("", console, this.progress);
+       ApkInstallerThread leer = new ApkInstallerThread(algo, "", this.progress);
        
         return leer.getInfo(command, checkAndCreateCommandFile()).trim(); // Remover espacios y saltos de línssea finales
     }

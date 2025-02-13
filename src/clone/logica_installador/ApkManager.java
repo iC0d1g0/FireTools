@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.stream.Stream;
+import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 
 /**
@@ -19,35 +20,38 @@ import javax.swing.JTextArea;
  */
 public class ApkManager {
     
-    
+    private final JProgressBar progress;
     private static final int DRIVERS_INSTALLERS =1;
     private JTextArea console;
     private Queue<Apk> cola = new LinkedList<>(); 
     private final String folderName;
     Object lock = new Object();
-    private Thread[] installers;
+    private Thread installers;
     
     private int cantidadDrivers;
     
-    public ApkManager(String folderName, JTextArea console){
+    public ApkManager(String folderName, JTextArea console,JProgressBar progress){
         this.console = console;
-        installers = new Thread[DRIVERS_INSTALLERS];
-        for(int i= 0; i<DRIVERS_INSTALLERS; i++){
-            installers[i] = new Thread(new ApkInstallerThread(this, "Installer"+(i+1)));
-        }
+        this.progress = progress;
+      
+        installers = new Thread(new ApkInstallerThread(this, "installador1", this.progress));
         this.folderName = folderName;
     }
     
+    
     public void iniciar(){
         installDrivers(this.folderName);
+             
+        installers.start();
         
-        for(Thread install :installers){
-            install.start();
-        }
        
     }
-       public void extraer(){
-        extraerDrivers();        
+   public Thread getInstaller(){
+        return this.installers;
+    }
+   
+   public void extraer(){
+        downloadApks();        
         Thread extractor = new Thread(new DriveresExtractor(this,this.folderName));
         extractor.start();
        
@@ -96,9 +100,9 @@ public class ApkManager {
             this.console.append("Error al recorrer la carpeta: " + driversPath.toAbsolutePath());
             e.printStackTrace();
         }
-          for(Thread install :installers){
-            install.start();
-        }
+    
+            installers.start();
+            
     }
         // Método para iniciar la instalación de drivers desde la carpeta Binaries
     public void installDrivers(String folderName) {
@@ -106,6 +110,7 @@ public class ApkManager {
 
         if (!driversPath.toFile().exists()) {
             System.out.println("Carpeta de drivers no encontrada en: " + driversPath);
+            downloadApks();
             return;
         }
 
@@ -120,18 +125,15 @@ public class ApkManager {
             e.printStackTrace();
         }
     }
-    public void extraerDrivers(){
+    public void downloadApks(){
+        //Revisar conexion de internet 
+        //descargar zip con las apks
+        //descomprimir zip
+        //Confirmar la existencia de las carpetas : GServices y SocialApps
+        //analizar la existencia de la carpeta $VersionAndroid, else : Notificar que este modelo no esta soportado por el momento y cancelar el proceso. 
+        //Si todo anda bien, pues volver a ejecutar la instalacion. 
 
-        String sourcePath = System.getenv("windir") + "\\System32\\DriverStore\\FileRepository";
-                     
-        try {
-            Files.walk(Paths.get(sourcePath))
-                 .forEach(path -> agregarDrivers(new Apk(path)));
-              this.cantidadDrivers = this.cola.size();
-        } catch (IOException e) {
-            this.console.append("\nError al acceder o copiar los archivos de la carpeta FileRepository. " + e.getMessage());
-           
-             }
+  
     }
     
     
@@ -142,4 +144,5 @@ public class ApkManager {
     public synchronized boolean isQueueEmpty() {
         return cola.isEmpty();
     }
+  
 }

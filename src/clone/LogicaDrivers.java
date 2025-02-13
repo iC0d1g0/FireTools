@@ -3,7 +3,7 @@ package clone;
 
 public interface LogicaDrivers {
        
-    public InfoEntity getInfo();
+    public  InfoEntity getInfo();
     
     public void instalarDrivers();
     

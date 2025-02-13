@@ -29,7 +29,7 @@ public class Funciones_windows {
      }
  
     // Método para iniciar la instalación de drivers desde la carpeta Binaries
-    public void installDrivers(String folderName) {
+    public synchronized void installDrivers(String folderName) {
      
         ApkManager manager = new ApkManager(folderName, this.console, this.progress);
         installador = manager.getInstaller();
@@ -39,7 +39,7 @@ public class Funciones_windows {
         //new ProgressUpdater(manager, installador).execute();
     }
     
-    public void installCustomDrivers(String folderName){
+    public  void installCustomDrivers(String folderName){
         ApkManager manager = new ApkManager(folderName, this.console, this.progress);
         System.out.println("Voy a iniciar la insalacion de drivers");
         manager.installCustomDriver(folderName);

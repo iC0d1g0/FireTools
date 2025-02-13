@@ -7,7 +7,9 @@ package firetools;
 import clone.InfoEntity;
 import clone.LogicaDrivers;
 import clone.LogicaDriversInterfaz;
-
+import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author elcue
@@ -22,7 +24,9 @@ public class MainScreen extends javax.swing.JFrame {
         //adb = new AdbManagment();
         
         initComponents();
+        pasosDepuracion();
         driver = new LogicaDriversInterfaz(jProgressBar1, console);
+      
         jProgressBar1.setMinimum(0);
         jProgressBar1.setMaximum(100);
         jProgressBar1.setValue(0);
@@ -212,44 +216,63 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void infoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoActionPerformed
-        // TODO add your handling code here:
-        InfoEntity info = this.driver.getInfo();
-        if(info != null){
-   
-            this.console.append("Leyendo informaciones: \n");
-
-            this.console.append("\t-Nombre:......" + info.getName() + "\n");
-
-            this.console.append("\t-Modelo:......" + info.getModelo() + "\n");
-
-            this.console.append("\t-Fabricante:......" + info.getManufacture() + "\n");
-
-            this.console.append("\t-Systema Operativo:......" + info.getOsName() + "\n");
-
-            this.console.append("\t-Parche de Seguridad :......"
-                    + info.getSecurity_patch() + "\n"
-            );
-             this.console.append("\t-Version:......"
-                    + info.getVersion()+ "\n"
-            );
-            this.console.append("\t-SDK:......"
-                    + info.getSdk()+ "\n"
-            );
-            this.console.append("\t-Tipo de Sistema:......"
-                    +info.getSystemType()+ "\n"
-            );
-             this.console.append("\t-Procesador:......"
-                    + info.getProcesador()+ "\n"
-            );
-             return;
-            }
-            this.console.append("No se encontro dispositivo!");
+         this.jProgressBar1.setValue(30);
+         this.console.append("Buscando dispositivo... \n");
+         
+         CompletableFuture.runAsync(() -> {
+             InfoEntity localvarable = MainScreen.this.driver.getInfo();
+             if (localvarable != null) {
+                 MainScreen.this.console.append("Encontrado 😎 \n");
+                 MainScreen.this.console.append("Leyendo informaciones   \t: \n");
+                 MainScreen.this.console.append("-Nombre                 \t: " + localvarable.getName() + "\n");
+                 MainScreen.this.console.append("-Modelo                 \t: " + localvarable.getModelo() + "\n");
+                 MainScreen.this.console.append("-Fabricante             \t: " + localvarable.getManufacture() + "\n");
+                 MainScreen.this.console.append("-Systema Operativo      \t: " + localvarable.getOsName() + "\n");
+                 MainScreen.this.console.append("-Parche de Seguridad    \t: "+ localvarable.getSecurity_patch() + "\n");
+                 MainScreen.this.console.append("-Version Android       \t: "+ localvarable.getVersion()+ "\n");
+                 MainScreen.this.console.append("-Version SDK            \t: "+ localvarable.getSdk()+ "\n");
+                 MainScreen.this.console.append("-Tipo de Sistema        \t: "+localvarable.getSystemType()+ "\n");
+                 MainScreen.this.console.append("-Procesador            \t: "+localvarable.getProcesador()+ "\n");
+                 MainScreen.this.jProgressBar1.setValue(100);
+                 try {
+                     Thread.sleep(500);
+                     
+                 } catch (InterruptedException ex) {
+                     Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+                 MainScreen.this.jProgressBar1.setValue(0);
+                 return;
+             }
+              MainScreen.this.console.append("No se encontro dispositivo!");
+         });
+        
+        
+           
         
     }//GEN-LAST:event_infoActionPerformed
 
+    private void pasosDepuracion(){
+            this.console.append("""
+                            Para conectar : 
+                            1. Ajustes. 
+                            2. Acerca del tablet Fire. 
+                            3. tap 3 veces sobre "Numero de serie" hasta que aparesca habilitar modo depuracion. 
+                            4. un paso a tras. 
+                            5. Opciones para desarrolladores. 
+                            6. habilita "Depuracion por USB". tap Ok. 
+                            7. te saldra una ventana : Permitir depuracion USB? 
+                            8. check sobre : Permitir siempre desde este equipo. 
+                            9. tap ok
+                            .............................................                            
+                            """);
+    }
     private void gplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gplayActionPerformed
-        // TODO add your handling code here:
-        driver.instalarDrivers();
+         // TODO add your handling code here:
+         this.jProgressBar1.setValue(30);
+         this.console.append("Buscando dispositivo...");
+         CompletableFuture.runAsync(() ->this.driver.getInfo())
+         .thenRun(() -> driver.instalarDrivers());
+        
     }//GEN-LAST:event_gplayActionPerformed
 
     private void social_appsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_social_appsActionPerformed

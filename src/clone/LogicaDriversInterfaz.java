@@ -31,9 +31,9 @@ public final class LogicaDriversInterfaz implements LogicaDrivers {
     }
 
     @Override
-    public InfoEntity getInfo() {
+    public synchronized InfoEntity getInfo() {
         InfoEntity info= new InfoEntity();
-      
+              
          var local = getLocalInfo();
         if(local != null){
          info.setName(local.get("Name"));
@@ -56,7 +56,7 @@ public final class LogicaDriversInterfaz implements LogicaDrivers {
     }
 
     @Override
-    public void instalarDrivers() {
+    public synchronized void instalarDrivers() {
         System.out.println("este es mi pc " +  this.thisPC.getVersion());
         helper.installDrivers(this.thisPC.getVersion());
     }

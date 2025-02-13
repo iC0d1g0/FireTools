@@ -51,7 +51,7 @@ public class BatchFileCreator {
        echo Waiting for youd device... please enable debuging options under developer options.
             adb.exe wait-for-device   
        echo device found.. 
-       echo attempting to install ...                                 
+                                    
             adb.exe install "%DIR_PATH%"  
        echo installation completed.. 
        echo please, confirmed if not install try again.
@@ -87,7 +87,7 @@ public class BatchFileCreator {
         
             rem Asigna el primer parámetro pasado al batch como la variable DIR_PATH
             set "COMMAD=%~1"
-            rem adb.exe wait-for-device                           
+            adb.exe wait-for-device                           
             adb.exe shell getprop "%COMMAD%"  
         
             """;

@@ -22,12 +22,10 @@ public final class LogicaDriversInterfaz implements LogicaDrivers {
     
     private final Funciones_windows helper ;
     private InfoEntity thisPC;
-    private final JProgressBar progress;
     private final JTextArea console;
     
-    public LogicaDriversInterfaz(JProgressBar progress, JTextArea console){
+    public LogicaDriversInterfaz(JTextArea console){
        
-        this.progress = progress;
         this.console = console;
         helper = new Funciones_windows(progress,console);
     }
@@ -59,7 +57,8 @@ public final class LogicaDriversInterfaz implements LogicaDrivers {
 
     @Override
     public void instalarDrivers() {
-        helper.installDrivers(this.thisPC.getSdk());
+        System.out.println("este es mi pc " +  this.thisPC.getVersion());
+        helper.installDrivers(this.thisPC.getVersion());
     }
 
     @Override
@@ -96,10 +95,10 @@ public final class LogicaDriversInterfaz implements LogicaDrivers {
        
         // Información avanzada usando comandos de Windows
         info.put("Manufacture", getOutput("ro.product.brand"));
-        info.put("Modelo", getOutput("ro.camera.model"));
-        info.put("SystemType", getOutput("ro.build.version.codename"));
+        info.put("Modelo", getOutput("ro.product.vendor.model"));
+        info.put("SystemType", getOutput("ro.boot.selinux"));
         info.put("Procesador", getOutput("ro.board.platform"));
-        info.put("SDK", "ro.board.platform");
+        info.put("SDK", getOutput("ro.build.version.sdk"));
         info.put("Security_Patch", getOutput("ro.build.version.security_patch"));
         return info;
        }

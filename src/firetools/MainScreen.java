@@ -215,35 +215,41 @@ public class MainScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
         InfoEntity info = this.driver.getInfo();
         if(info != null){
-            
-        this.console.append("Leyendo informaciones ...\n");
+   
+            this.console.append("Leyendo informaciones: \n");
 
-        this.console.append("Modelo: " + info.getModelo() + "\n");
+            this.console.append("\t-Nombre:......" + info.getName() + "\n");
 
-        this.console.append("Fabricante: " + info.getManufacture() + "\n");
+            this.console.append("\t-Modelo:......" + info.getModelo() + "\n");
 
-        this.console.append("Systema Operativo: " + info.getOsName() + "\n");
+            this.console.append("\t-Fabricante:......" + info.getManufacture() + "\n");
 
-        this.console.append("Parche de Seguridad : "
-                + info.getSecurity_patch() + "\n"
-        );
-         this.console.append("Version : "
-                + info.getVersion()+ "\n"
-        );
-        this.console.append("Tipo de Sistema : "
-                +info.getSystemType()+ "\n"
-        );
-         this.console.append("Procesador : "
-                + info.getProcesador()+ "\n"
-        );
-         return;
-        }
-        this.console.append("No se encontro dispositivo!");
+            this.console.append("\t-Systema Operativo:......" + info.getOsName() + "\n");
+
+            this.console.append("\t-Parche de Seguridad :......"
+                    + info.getSecurity_patch() + "\n"
+            );
+             this.console.append("\t-Version:......"
+                    + info.getVersion()+ "\n"
+            );
+            this.console.append("\t-SDK:......"
+                    + info.getSdk()+ "\n"
+            );
+            this.console.append("\t-Tipo de Sistema:......"
+                    +info.getSystemType()+ "\n"
+            );
+             this.console.append("\t-Procesador:......"
+                    + info.getProcesador()+ "\n"
+            );
+             return;
+            }
+            this.console.append("No se encontro dispositivo!");
         
     }//GEN-LAST:event_infoActionPerformed
 
     private void gplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gplayActionPerformed
         // TODO add your handling code here:
+        driver.instalarDrivers();
     }//GEN-LAST:event_gplayActionPerformed
 
     private void social_appsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_social_appsActionPerformed

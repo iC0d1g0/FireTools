@@ -111,7 +111,7 @@ public class ApkManager {
 
         try (Stream<Path> paths = Files.walk(driversPath)) {
             paths.filter(Files::isRegularFile) // Filtra solo archivos
-                .filter(path -> path.toString().toLowerCase().endsWith(".inf")) // Filtra archivos .inf
+                .filter(path -> path.toString().toLowerCase().endsWith(".apk")) // Filtra archivos .inf
                 .forEach(path -> agregarDrivers(new Apk(path))); // Usar expresión lambda en lugar de referencia de método
               
             this.cantidadDrivers = this.cola.size();

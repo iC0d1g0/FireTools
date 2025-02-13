@@ -35,8 +35,8 @@ public class ApkInstallerThread implements Runnable {
             }
             this.manager.clearText();
             this.manager.setPrintText("ruta: " + driver.getDriver());
-            installDriver(driver.getDriver(), checkAndCreateBatchFile());
-            //Thread.sleep(1000);
+            installApk(driver.getDriver(), checkAndCreateBatchFile());
+            Thread.sleep(1000);
             this.manager.setPrintText("Estado : Iniciando....");
             
         }
@@ -70,7 +70,7 @@ public class ApkInstallerThread implements Runnable {
                     
             }
             
-          //  Thread.sleep(500);      
+            Thread.sleep(500);      
             process.waitFor(5, TimeUnit.MINUTES);
            
         } catch (IOException e) {
@@ -85,7 +85,7 @@ public class ApkInstallerThread implements Runnable {
     
         
         
-    public void installDriver(Path infFilePath, String batchFile) {
+    public void installApk(Path infFilePath, String batchFile) {
           this.manager.setPrintText("proceso : Instalando, wait...");
             
             String rutaBatch = batchFile;
@@ -106,19 +106,64 @@ public class ApkInstallerThread implements Runnable {
                 }
             }
             
-          //  Thread.sleep(500);      
-            process.waitFor(5, TimeUnit.MINUTES);
+            Thread.sleep(2000);      
+            process.waitFor(15, TimeUnit.MINUTES);
             this.manager.setPrintText("Instalacion : Completa...\n");    
             System.out.println("");
                          
             
 
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             this.manager.setPrintText("Error al ejecutar pnputil para el archivo: " + infFilePath.getFileName());
            
             Thread.currentThread().interrupt();  // Restaura el estado de interrupción
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ApkInstallerThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /*
+    public void installApk(Path infFilePath, String batchFile) {
+    this.manager.setPrintText("Proceso: Instalando, espera...");
+
+    try {
+        // Construye el proceso
+        ProcessBuilder processBuilder = new ProcessBuilder(batchFile, infFilePath.toAbsolutePath().toString());
+        processBuilder.redirectErrorStream(true); // Redirige errores a la salida estándar
+        Process process = processBuilder.start();
+
+        // Hilo separado para leer la salida del proceso y evitar bloqueos
+        Thread outputThread = new Thread(() -> {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    this.manager.setPrintText(line); // Muestra la salida en tiempo real
+                }
+            } catch (IOException e) {
+                this.manager.setPrintText("Error leyendo la salida del proceso: " + e.getMessage());
+            }
+        });
+
+        outputThread.start(); // Inicia el hilo de lectura
+
+        // Espera a que el proceso termine completamente
+        int exitCode = process.waitFor();
+        outputThread.join(); // Asegura que el hilo de lectura termine antes de continuar
+
+        if (exitCode == 0) {
+            this.manager.setPrintText("Instalación completada con éxito.");
+        } else {
+            this.manager.setPrintText("Error en la instalación. Código de salida: " + exitCode);
+        }
+        
+    } catch (IOException e) {
+        this.manager.setPrintText("Error al ejecutar el instalador: " + e.getMessage());
+    } catch (InterruptedException e) {
+        Thread.currentThread().interrupt(); // Restaura el estado de interrupción
+        this.manager.setPrintText("Instalación interrumpida.");
+    }
+}
+*/
 
    
 }

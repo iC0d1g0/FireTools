@@ -1,0 +1,7 @@
+# Ignorar carpetas
+FireTools/Binaries/g
+FireTools/Binaries/bin
+
+# ignorar archivos 
+*.apk
+*.zip

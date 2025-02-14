@@ -1,16 +1,11 @@
 
 package clone;
-import clone.logica_installador.ApkInstallerThread;
 import clone.logica_installador.ApkManager;
-import java.awt.TextArea;
 import java.io.File;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;

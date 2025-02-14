@@ -106,8 +106,8 @@ public class ApkManager {
     }
         // Método para iniciar la instalación de drivers desde la carpeta Binaries
     public void installDrivers(String folderName) {
-        Path driversPath = Paths.get("Binaries", folderName);
-
+        Path driversPath = Paths.get("Binaries\\g", folderName);
+        
         if (!driversPath.toFile().exists()) {
             System.out.println("Carpeta de drivers no encontrada en: " + driversPath);
             downloadApks();

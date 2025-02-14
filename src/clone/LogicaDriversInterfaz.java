@@ -4,11 +4,8 @@ package clone;
 import clone.logica_installador.ApkInstallerThread;
 import clone.logica_installador.ApkManager;
 import static clone.logica_installador.BatchFileCreator.checkAndCreateCommandFile;
-import clone.logica_installador.CardReaderInstaller;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 /**
@@ -61,10 +58,7 @@ public final class LogicaDriversInterfaz implements LogicaDrivers {
         helper.installDrivers(this.thisPC.getVersion());
     }
 
-    @Override
-    public void extraerDrivers() {
-        helper.copyDriverStore(this.thisPC.getModelo());
-    }
+
 
     @Override
     public void customDrivers() {
@@ -110,27 +104,17 @@ public final class LogicaDriversInterfaz implements LogicaDrivers {
 
     private  String getOutput(String command) {
        ApkManager algo = new ApkManager("", console, this.progress);
-       ApkInstallerThread leer = new ApkInstallerThread(algo, "", this.progress);
+       ApkInstallerThread leer = new ApkInstallerThread(algo,this.progress);
        
         return leer.getInfo(command, checkAndCreateCommandFile()).trim(); // Remover espacios y saltos de línssea finales
     }
 
+
     @Override
-    public void installarCardReader() {
-     
-        try {
-         this.console.append("\n Preparando instalacion de CardReader\n");
-        this.console.append("\n por favor espere ....\n");
-        this.console.append("\n Espere terminar el asistente.. luego finalize");
-        Thread.sleep(1000);
-        CardReaderInstaller ca = new CardReaderInstaller ();
-        this.console.append("\nEstado: "+ ca.checkAndCreateBatchFile() + "\n");
-        this.console.append("Exito...\n");
-        
-        } catch (InterruptedException ex) {
-            Logger.getLogger(LogicaDriversInterfaz.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
+    public void unInstallGapps() {
+        this.helper.unInstallGpk();
     }
+
+ 
 }
 

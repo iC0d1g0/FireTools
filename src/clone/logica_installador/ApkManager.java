@@ -4,12 +4,18 @@
  */
 package clone.logica_installador;
 
+import static clone.logica_installador.BatchFileCreator.checkAndCreateCommandFileUninstall;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
@@ -34,7 +40,7 @@ public class ApkManager {
         this.console = console;
         this.progress = progress;
       
-        installers = new Thread(new ApkInstallerThread(this, "installador1", this.progress));
+        installers = new Thread(new ApkInstallerThread(this, this.progress));
         this.folderName = folderName;
     }
     
@@ -46,6 +52,112 @@ public class ApkManager {
         
        
     }
+   public void unInstallGApps(){
+          clearText();      
+          setPrintText("proceso : Deshintalando, wait...");
+            
+            String rutaBatch = checkAndCreateCommandFileUninstall();
+
+        try {
+            // Ejecuta el comando pnputil
+           
+            ProcessBuilder processBuilder = new ProcessBuilder(rutaBatch);
+          
+            processBuilder.redirectErrorStream(true); // Combina la salida de error con la salida estándar
+            Process process = processBuilder.start();
+            
+            // Lee la salida del proceso para obtener mensajes de instalación
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                int progreso = 10;
+                
+                while ((line = reader.readLine()) != null) {
+                    if(progreso > 70){
+                         progreso =- 30;
+                    }
+                   
+                    progress.setValue(progreso);
+                  
+                    setPrintText(line);  // Imprime la salida (incluye errores)
+                   
+                    
+                    progreso =+ 20;
+                    
+                }
+                progress.setValue(100);
+      
+               
+            }
+                    
+            //Thread.sleep(2000);      
+            process.waitFor(15, TimeUnit.MINUTES);
+             
+       
+
+        } catch (IOException e) {
+            setPrintText("Error desintalando tus apk ");
+           
+            Thread.currentThread().interrupt();  // Restaura el estado de interrupción
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ApkInstallerThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+    }
+   
+   public void InstalacionSimple(){
+          clearText();      
+          setPrintText("proceso : Deshintalando, wait...");
+            
+            String rutaBatch = Simplificando.checkAndCreateBatchFile();
+            Path driversPath = Paths.get("Binaries\\g", folderName+"\\");
+
+        try {
+        
+            ProcessBuilder processBuilder = new ProcessBuilder(rutaBatch,driversPath.toAbsolutePath().toString() );
+          
+            processBuilder.redirectErrorStream(true); // Combina la salida de error con la salida estándar
+            Process process = processBuilder.start();
+            
+            // Lee la salida del proceso para obtener mensajes de instalación
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                int progreso = 30;
+                
+                while ((line = reader.readLine()) != null) {
+                    if(progreso > 70){
+                         progreso =- 30;
+                    }
+                   
+                    progress.setValue(progreso);
+                  
+                    setPrintText(line);  // Imprime la salida (incluye errores)
+                   
+                    
+                    progreso =+ 20;
+                    
+                }
+                progress.setValue(100);
+      
+               
+            }
+                    
+            //Thread.sleep(2000);      
+            process.waitFor(15, TimeUnit.MINUTES);
+             
+       
+
+        } catch (IOException e) {
+            setPrintText("Error desintalando tus apk ");
+           
+            Thread.currentThread().interrupt();  // Restaura el estado de interrupción
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ApkInstallerThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+    }
+    
+       
+        
    public Thread getInstaller(){
         return this.installers;
     }
@@ -80,7 +192,7 @@ public class ApkManager {
         return cola.poll();
     }
     
-       public void installCustomDriver(String custom) {
+    public void installCustomDriver(String custom) {
         
       
         Path driversPath = Paths.get(custom);

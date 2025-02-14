@@ -7,12 +7,12 @@ public interface LogicaDrivers {
     
     public void instalarDrivers();
     
-    public void installarCardReader();
-    public void extraerDrivers();
-    
+     
     public void customDrivers();
     
     public void manualDriver(String path);
     
+    public void unInstallGapps();
+
     
 }

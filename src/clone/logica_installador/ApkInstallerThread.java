@@ -3,35 +3,32 @@ package clone.logica_installador;
 
 import static clone.logica_installador.BatchFileCreator.checkAndCreateBatchFile;
 import static clone.logica_installador.BatchFileCreator.checkAndCreateCommandFile;
+import static clone.logica_installador.BatchFileCreator.checkAndCreateCommandFileUninstall;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileSystemView;
 
 public class ApkInstallerThread implements Runnable {
     private final ApkManager manager;
-    private final String installerName;
+    //private final String installerName;
     private final JProgressBar progress;
     
 
-    public ApkInstallerThread(ApkManager manager, String installerName, JProgressBar progress) {
+    public ApkInstallerThread(ApkManager manager, JProgressBar progress) {
         this.manager = manager;
-        this.installerName = installerName;
+        //this.installerName = installerName;
         this.progress = progress;
-    }
-    
+    }    
  
     @Override
     public void run() {
@@ -45,7 +42,7 @@ public class ApkInstallerThread implements Runnable {
             }
             this.manager.clearText();
             this.manager.setPrintText("ruta: " + driver.getDriver());
-            installApk(driver.getDriver(), checkAndCreateBatchFile());
+           // installApk(driver.getDriver(), checkAndCreateBatchFile());
             Thread.sleep(1000);
             this.manager.setPrintText("Estado : Iniciando....");
             
@@ -76,9 +73,7 @@ public class ApkInstallerThread implements Runnable {
                 
                 if ((line = reader.readLine()) != null){
                     return line;
-                }
-                   
-                    
+                }                   
             }
             
             Thread.sleep(500);      
@@ -94,9 +89,8 @@ public class ApkInstallerThread implements Runnable {
            return line;
     }
     
-        
-        
-    public void installApk(Path infFilePath, String batchFile) {
+  
+   /* public void installApk(Path infFilePath, String batchFile) {
           this.manager.setPrintText("proceso : Instalando, wait...");
             
             String rutaBatch = batchFile;
@@ -106,7 +100,7 @@ public class ApkInstallerThread implements Runnable {
             // Ejecuta el comando pnputil
            
             ProcessBuilder processBuilder = new ProcessBuilder(rutaBatch, infFilePath.toAbsolutePath().toString());
-            System.out.println("archivos : " + infFilePath.toAbsolutePath().toString());
+            //System.out.println("archivos : " + infFilePath.toAbsolutePath().toString());
             processBuilder.redirectErrorStream(true); // Combina la salida de error con la salida estándar
             Process process = processBuilder.start();
             new ProgressUpdater(manager).execute();
@@ -140,7 +134,7 @@ public class ApkInstallerThread implements Runnable {
             Logger.getLogger(ApkInstallerThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+*/
     /*
     public void installApk(Path infFilePath, String batchFile) {
     this.manager.setPrintText("Proceso: Instalando, espera...");

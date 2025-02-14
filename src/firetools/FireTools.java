@@ -36,6 +36,7 @@ public class FireTools extends javax.swing.JFrame {
         setIconImage(icon.getImage());            
         
         initComponents();
+        this.console.setFocusable(true);
         pasosDepuracion();
         driver = new LogicaDriversInterfaz(jProgressBar1, console);
       
@@ -62,7 +63,6 @@ public class FireTools extends javax.swing.JFrame {
         console = new javax.swing.JTextArea();
         info = new javax.swing.JButton();
         gplay = new javax.swing.JButton();
-        social_apps = new javax.swing.JButton();
         uninstall_G = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -147,23 +147,6 @@ public class FireTools extends javax.swing.JFrame {
             }
         });
 
-        social_apps.setBackground(new java.awt.Color(26, 12, 90));
-        social_apps.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        social_apps.setForeground(new java.awt.Color(255, 255, 255));
-        social_apps.setText("Social Apps");
-        social_apps.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 102, 102), new java.awt.Color(51, 255, 255), new java.awt.Color(255, 102, 255), new java.awt.Color(204, 255, 0)));
-        social_apps.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        social_apps.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                social_appsMouseEntered(evt);
-            }
-        });
-        social_apps.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                social_appsActionPerformed(evt);
-            }
-        });
-
         uninstall_G.setBackground(new java.awt.Color(26, 12, 90));
         uninstall_G.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         uninstall_G.setForeground(new java.awt.Color(255, 255, 255));
@@ -191,6 +174,7 @@ public class FireTools extends javax.swing.JFrame {
         jProgressBar1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jProgressBar1.setFocusCycleRoot(true);
         jProgressBar1.setInheritsPopupMenu(true);
+        jProgressBar1.setString("");
         jProgressBar1.setStringPainted(true);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
@@ -208,12 +192,11 @@ public class FireTools extends javax.swing.JFrame {
                     .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
                         .addComponent(info, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(gplay, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(social_apps, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(uninstall_G, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)))
+                        .addGap(47, 47, 47)
+                        .addComponent(uninstall_G, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap(98, Short.MAX_VALUE)
@@ -235,7 +218,6 @@ public class FireTools extends javax.swing.JFrame {
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(info)
                     .addComponent(gplay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(social_apps, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(uninstall_G, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(23, 23, 23)
                 .addComponent(consolepanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -262,6 +244,8 @@ public class FireTools extends javax.swing.JFrame {
 
     private void uninstall_GActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uninstall_GActionPerformed
         // TODO add your handling code here:
+        CompletableFuture.runAsync(() -> this.driver.unInstallGapps());
+        
     }//GEN-LAST:event_uninstall_GActionPerformed
 
     private void uninstall_GMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uninstall_GMouseEntered
@@ -269,15 +253,6 @@ public class FireTools extends javax.swing.JFrame {
         this.uninstall_G.setToolTipText("Remueve play store.");
 
     }//GEN-LAST:event_uninstall_GMouseEntered
-
-    private void social_appsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_social_appsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_social_appsActionPerformed
-
-    private void social_appsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_social_appsMouseEntered
-        // TODO add your handling code here:
-        this.social_apps.setToolTipText("Instala aplicaciones sociales.");
-    }//GEN-LAST:event_social_appsMouseEntered
 
     private void gplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gplayActionPerformed
         // TODO add your handling code here:
@@ -311,6 +286,8 @@ public class FireTools extends javax.swing.JFrame {
                 FireTools.this.console.append("-Version SDK            \t: "+ localvarable.getSdk()+ "\n");
                 FireTools.this.console.append("-Tipo de Sistema        \t: "+localvarable.getSystemType()+ "\n");
                 FireTools.this.console.append("-Procesador            \t: "+localvarable.getProcesador()+ "\n");
+           
+                
                 FireTools.this.jProgressBar1.setValue(100);
                 try {
                     Thread.sleep(500);
@@ -322,6 +299,7 @@ public class FireTools extends javax.swing.JFrame {
                 return;
             }
             FireTools.this.console.append("No se encontro dispositivo!");
+           
         });
 
     }//GEN-LAST:event_infoActionPerformed
@@ -398,10 +376,9 @@ public class FireTools extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JProgressBar jProgressBar1;
+    public javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JButton social_apps;
     private javax.swing.JButton uninstall_G;
     // End of variables declaration//GEN-END:variables
 }

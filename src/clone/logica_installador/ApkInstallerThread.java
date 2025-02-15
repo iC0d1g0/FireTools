@@ -1,14 +1,11 @@
 
 package clone.logica_installador;
 
-import static clone.logica_installador.BatchFileCreator.checkAndCreateBatchFile;
 import static clone.logica_installador.BatchFileCreator.checkAndCreateCommandFile;
-import static clone.logica_installador.BatchFileCreator.checkAndCreateCommandFileUninstall;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;

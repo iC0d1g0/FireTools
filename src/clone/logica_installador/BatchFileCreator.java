@@ -176,7 +176,6 @@ public class BatchFileCreator {
          return  batchFile.getAbsolutePath();
     }
 
- 
 }
 
 class Simplificando{

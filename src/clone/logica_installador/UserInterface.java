@@ -12,7 +12,7 @@ import javax.swing.JProgressBar;
  */
 public class UserInterface implements ProgressListener {
 
-    private JProgressBar progressBar; // Supongamos que estás usando una barra de progreso en Swing
+    private final JProgressBar progressBar; // Supongamos que estás usando una barra de progreso en Swing
 
     public UserInterface(JProgressBar progress) {
        this.progressBar = progress;

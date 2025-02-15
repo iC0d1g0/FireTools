@@ -2,7 +2,6 @@
 package clone;
 
 import clone.logica_installador.ApkInstallerThread;
-import clone.logica_installador.ApkManager;
 import static clone.logica_installador.BatchFileCreator.checkAndCreateCommandFile;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,15 +15,9 @@ public final class LogicaDriversInterfaz implements LogicaDrivers {
     
     private final Funciones_windows helper ;
     private InfoEntity thisPC;
-    private final JTextArea console;
-    private final JProgressBar progress;
-    public LogicaDriversInterfaz(JProgressBar progress, JTextArea console){
-       
-        this.console = console;
-        helper = new Funciones_windows(progress,console);
-        this.progress = progress;
-        
-       
+    
+    public LogicaDriversInterfaz(JProgressBar progress, JTextArea console){         
+        helper = new Funciones_windows(progress,console);       
     }
 
     @Override
@@ -57,26 +50,7 @@ public final class LogicaDriversInterfaz implements LogicaDrivers {
         System.out.println("este es mi pc " +  this.thisPC.getVersion());
         helper.installDrivers(this.thisPC.getVersion());
     }
-
-
-
-    @Override
-    public void customDrivers() {
-      String carpeta = helper.seleccionarCarpeta();
-      if(carpeta != null){
-          this.console.append("Instalando drivers de: " + carpeta);
-          helper.installCustomDrivers(carpeta);
-      }else{
-          this.console.append("Favor seleconar algun archivo..");
-          
-      }
-    }
-
-    @Override
-    public void manualDriver(String path) {
-        
-    }
-        
+  
     private  Map<String, String> getLocalInfo(){
        
       
@@ -103,8 +77,7 @@ public final class LogicaDriversInterfaz implements LogicaDrivers {
     }
 
     private  String getOutput(String command) {
-       ApkManager algo = new ApkManager("", console, this.progress);
-       ApkInstallerThread leer = new ApkInstallerThread(algo,this.progress);
+       ApkInstallerThread leer = new ApkInstallerThread();
        
         return leer.getInfo(command, checkAndCreateCommandFile()).trim(); // Remover espacios y saltos de línssea finales
     }

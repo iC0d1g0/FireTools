@@ -7,11 +7,6 @@ public interface LogicaDrivers {
     
     public void instalarDrivers();
     
-     
-    public void customDrivers();
-    
-    public void manualDriver(String path);
-    
     public void unInstallGapps();
 
     

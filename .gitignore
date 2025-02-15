@@ -1,7 +1,7 @@
 # Ignorar carpetas
-Binaries/
-FireTools/iC0d1g0Binaries/g
-FireTools/Binaries/bin
+
+Binaries/g
+Binaries/bin
 
 
 # ignorar archivos 

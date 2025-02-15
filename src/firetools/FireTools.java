@@ -8,7 +8,6 @@ import clone.InfoEntity;
 import clone.LogicaDrivers;
 import clone.LogicaDriversInterfaz;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
@@ -269,22 +268,34 @@ public class FireTools extends javax.swing.JFrame {
     }//GEN-LAST:event_gplayMouseEntered
 
     private void infoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoActionPerformed
-        this.jProgressBar1.setValue(30);
+        
+        this.jProgressBar1.setValue(20);
         this.console.append("Buscando dispositivo... \n");
 
         CompletableFuture.runAsync(() -> {
             InfoEntity localvarable = FireTools.this.driver.getInfo();
             if (localvarable != null) {
+                 FireTools.this.console.setText("");
                 FireTools.this.console.append("Encontrado 😎 \n");
+                FireTools.this.jProgressBar1.setValue(30);
                 FireTools.this.console.append("Leyendo informaciones   \t: \n");
+                 FireTools.this.jProgressBar1.setValue(40);
                 FireTools.this.console.append("-Nombre                 \t: " + localvarable.getName() + "\n");
+                 FireTools.this.jProgressBar1.setValue(50);
                 FireTools.this.console.append("-Modelo                 \t: " + localvarable.getModelo() + "\n");
+                 FireTools.this.jProgressBar1.setValue(60);
                 FireTools.this.console.append("-Fabricante             \t: " + localvarable.getManufacture() + "\n");
+                 FireTools.this.jProgressBar1.setValue(70);
                 FireTools.this.console.append("-Systema Operativo      \t: " + localvarable.getOsName() + "\n");
+                 FireTools.this.jProgressBar1.setValue(80);
                 FireTools.this.console.append("-Parche de Seguridad    \t: "+ localvarable.getSecurity_patch() + "\n");
+                FireTools.this.jProgressBar1.setValue(90);
                 FireTools.this.console.append("-Version Android       \t: "+ localvarable.getVersion()+ "\n");
+                FireTools.this.jProgressBar1.setValue(92);
                 FireTools.this.console.append("-Version SDK            \t: "+ localvarable.getSdk()+ "\n");
+                FireTools.this.jProgressBar1.setValue(94);
                 FireTools.this.console.append("-Tipo de Sistema        \t: "+localvarable.getSystemType()+ "\n");
+                FireTools.this.jProgressBar1.setValue(95);
                 FireTools.this.console.append("-Procesador            \t: "+localvarable.getProcesador()+ "\n");
            
                 
